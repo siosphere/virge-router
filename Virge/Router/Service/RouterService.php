@@ -64,7 +64,7 @@ class RouterService {
     protected function _buildRequest($uri = null) {
         $request = new Request();
         
-        $request->setURI(!$uri ? $_SERVER['REQUEST_URI'] : $uri);
+        $request->setURI(!$uri ? $this->_getServerURI() : $uri);
         
         $server = new Request\Server($_SERVER);
         $post = new Request\Post($_POST);
@@ -124,5 +124,22 @@ class RouterService {
         }
         
         return NULL;
+    }
+    
+    /**
+     * Return from the server URL
+     * @return string|null
+     */
+    protected function _getServerURI() {
+        if(!isset($_SERVER) || !isset($_SERVER['REQUEST_URI'])){
+            return NULL;
+        }
+        
+        $url = parse_url($_SERVER['REQUEST_URI']);
+        if(!$url) {
+            return NULL;
+        }
+        
+        return substr($url['path'], 1);
     }
 }

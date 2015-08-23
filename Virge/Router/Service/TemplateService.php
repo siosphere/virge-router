@@ -15,7 +15,12 @@ class TemplateService {
      * @param string $template
      * @return Response
      */
-    public function render($template) {
+    public function render($template, $parameters = []) {
+        
+        foreach($parameters as $name => $value){
+            $$name = $value;
+        }
+        
         ob_start();
         include $template;
         $content = ob_get_contents();

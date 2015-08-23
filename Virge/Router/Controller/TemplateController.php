@@ -18,8 +18,8 @@ class TemplateController {
      * @param string $filepath
      * @return Response
      */
-    public function render($filepath) {
-        return $this->getTemplatingService()->render(Config::path($filepath));
+    public function render($filepath, $parameters = []) {
+        return $this->getTemplatingService()->render(Config::path($filepath), $parameters);
     }
     
     /**

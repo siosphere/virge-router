@@ -25,8 +25,8 @@ class RouterService {
     /**
      * Route a web request
      */
-    public function route() {
-        $request = $this->_buildRequest();
+    public function route($uri = null) {
+        $request = $this->_buildRequest($uri);
         
         $route = $this->_getRoute($request->getURI());
         if(!$route) {
@@ -60,10 +60,10 @@ class RouterService {
      * Build the request object
      * @return Request
      */
-    protected function _buildRequest() {
+    protected function _buildRequest($uri = null) {
         $request = new Request();
         
-        $request->setURI($_SERVER['REQUEST_URI']);
+        $request->setURI(!$uri ? $_SERVER['REQUEST_URI'] : $uri);
         
         $server = new Request\Server($_SERVER);
         $post = new Request\Post($_POST);

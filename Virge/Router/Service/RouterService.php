@@ -43,7 +43,8 @@ class RouterService {
             return call_user_func($route->getController(), $request);
         }
         
-        $controller = new $route->getController();
+        $controllerClassname = $route->getController();
+        $controller = new $controllerClassname;
         $method = $route->getMethod();
         
         $response = call_user_func_array([$controller, $method], [$request]);

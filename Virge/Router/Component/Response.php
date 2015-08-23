@@ -1,4 +1,5 @@
 <?php
+namespace Virge\Router\Component;
 
 /**
  * 

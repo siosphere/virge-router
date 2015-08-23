@@ -1,6 +1,7 @@
 <?php
 namespace Virge\Router\Controller;
 
+use Virge\Virge;
 use Virge\Core\Config;
 use Virge\Router\Component\Response;
 use Virge\Router\Service\TemplateService;
@@ -25,6 +26,6 @@ class TemplateController {
      * @return TemplateService
      */
     public function getTemplatingService() {
-        return Virge\Virge::service('templating');
+        return Virge::service('templating');
     }
 }

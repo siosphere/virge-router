@@ -6,6 +6,8 @@ use Virge\Routes;
 use Virge\Router\Component\Request;
 use Virge\Router\Component\Response;
 use Virge\Router\Component\Route;
+
+use Virge\Router\Exception\NotFoundException;
 use Virge\Router\Exception\UnauthorizedAccessException;
 
 /**

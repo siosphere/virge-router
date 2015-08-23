@@ -1,6 +1,8 @@
 <?php
 namespace Virge\Router\Service;
 
+use Virge\Routes;
+
 use Virge\Router\Component\Request;
 use Virge\Router\Component\Response;
 use Virge\Router\Component\Route;

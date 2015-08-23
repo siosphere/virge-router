@@ -7,3 +7,4 @@ use Virge\Router\Capsule;
  * @author Michael Kramer
  */
 Capsule::registerService("router", "\\Virge\\Router\\Service\\RouterService");
+Capsule::registerService("templating", "\\Virge\\Router\\Service\\TemplateService");

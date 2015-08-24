@@ -10,6 +10,8 @@ class Response extends \Virge\Core\Model {
     
     protected $body;
     
+    protected $headers = array();
+    
     /**
      * @param string $body
      */

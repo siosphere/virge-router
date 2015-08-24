@@ -17,7 +17,7 @@ class TemplateService {
      * @param string $template
      * @return Response
      */
-    public function render($template, $parameters = []) {
+    public function render($template, $parameters = array()) {
         
         foreach($parameters as $name => $value){
             $$name = $value;
@@ -36,7 +36,7 @@ class TemplateService {
      * @param string $template
      * @param array $parameters
      */
-    public function component($template, $parameters = []) {
+    public function component($template, $parameters = array()) {
         foreach($parameters as $name => $value){
             $$name = $value;
         }

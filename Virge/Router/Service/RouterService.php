@@ -17,12 +17,6 @@ use Virge\Router\Exception\UnauthorizedAccessException;
 class RouterService {
     
     /**
-     * Holds available routes
-     * @var array
-     */
-    protected $_hooks = [];
-    
-    /**
      * Route a web request
      */
     public function route($uri = null) {
@@ -47,7 +41,7 @@ class RouterService {
         $controller = new $controllerClassname;
         $method = $route->getMethod();
         
-        $response = call_user_func_array([$controller, $method], [$request]);
+        $response = call_user_func_array(array($controller, $method), array($request));
         
         if($response instanceof Response) {
             $response->send();

@@ -44,9 +44,10 @@ class Request extends \Virge\Core\Model {
                 $value = $this->getPost()->get($key);
                 break;
         }
+        
         if($this->getJson()) {
             $jsonValue = $this->getJson()->get($key);
-            $value = $jsonValue ?: $value;
+            $value = $jsonValue !== null ? $jsonValue : $value;
         }
         
         if($value === null) {

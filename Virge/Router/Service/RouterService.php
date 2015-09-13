@@ -69,10 +69,12 @@ class RouterService {
         $server = new Request\Server($_SERVER);
         $post = new Request\Post($_POST);
         $get = new Request\Get($_GET);
+        $files = new Request\Files($_FILES);
         
         $request->setServer($server);
         $request->setPost($post);
         $request->setGet($get);
+        $request->setFiles($files);
         
         return $request;
     }

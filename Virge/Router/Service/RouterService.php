@@ -60,6 +60,12 @@ class RouterService {
         
         $request->setURI(!$uri ? $this->_getServerURI() : $uri);
         
+        $jsonBody = json_decode(file_get_contents("php://input"), true);
+        if($jsonBody !== false) {
+            //set request body
+            $request->setJson(new Request\Json($jsonBody));
+        }
+        
         $server = new Request\Server($_SERVER);
         $post = new Request\Post($_POST);
         $get = new Request\Get($_GET);

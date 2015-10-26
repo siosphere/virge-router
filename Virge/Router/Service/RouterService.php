@@ -20,6 +20,21 @@ class RouterService {
      * Route a web request
      */
     public function route($uri = null) {
+        
+        foreach(Routes::getResolvers() as $resolverConfig) {
+            $resolver = $resolverConfig['resolver'];
+            $method = $resolverConfig['method'];
+            if(false !== ($response = $resolver->$method($uri))) {
+                
+                if($response instanceof Response) {
+                    $response->send();
+                } else {
+                    $response = new Response($response);
+                    $response->send();
+                }
+            }
+        }
+        
         $request = $this->_buildRequest($uri);
         
         $route = $this->_getRoute($request->getURI());

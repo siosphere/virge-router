@@ -17,13 +17,13 @@ class Routes {
     
     public static $useSecure = false;
 
-    public static function resolver($handler, $method, $priority = 999) {
+    public static function resolver($resolver, $method, $priority = 999) {
         while (isset(self::$resolvers[$priority])) {
             $priority++;
         }
 
         self::$resolvers[$priority] = array(
-            'handler' => $handler,
+            'resolver' => $resolver,
             'method' => $method
         );
     }

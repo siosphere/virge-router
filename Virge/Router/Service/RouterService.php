@@ -21,10 +21,12 @@ class RouterService {
      */
     public function route($uri = null) {
         
+        $request = $this->_buildRequest($uri);
+        
         foreach(Routes::getResolvers() as $resolverConfig) {
             $resolver = $resolverConfig['resolver'];
             $method = $resolverConfig['method'];
-            if(false !== ($response = $resolver->$method($uri))) {
+            if(false !== ($response = call_user_func_array( array( $resolver, $method), array($request) ))) {
                 
                 if($response instanceof Response) {
                     $response->send();
@@ -34,8 +36,6 @@ class RouterService {
                 }
             }
         }
-        
-        $request = $this->_buildRequest($uri);
         
         $route = $this->_getRoute($request->getURI());
         if(!$route) {

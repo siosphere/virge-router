@@ -34,6 +34,7 @@ class RouterService {
                     $response = new Response($response);
                     $response->send();
                 }
+                return true;
             }
         }
         

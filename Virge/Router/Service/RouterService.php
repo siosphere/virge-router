@@ -20,7 +20,22 @@ class RouterService {
      * Route a web request
      */
     public function route($uri = null) {
+        
         $request = $this->_buildRequest($uri);
+        
+        foreach(Routes::getResolvers() as $resolverConfig) {
+            $resolver = $resolverConfig['resolver'];
+            $method = $resolverConfig['method'];
+            if(false !== ($response = call_user_func_array( array( $resolver, $method), array($request) ))) {
+                
+                if($response instanceof Response) {
+                    $response->send();
+                } else {
+                    $response = new Response($response);
+                    $response->send();
+                }
+            }
+        }
         
         $route = $this->_getRoute($request->getURI());
         if(!$route) {

@@ -12,11 +12,14 @@ class Response extends \Virge\Core\Model {
     
     protected $headers = array();
     
+    protected $status_code;
+    
     /**
      * @param string $body
      */
-    public function __construct($body = null){
+    public function __construct($body = null, $status_code = 200){
         $this->body = $body;
+        $this->status_code = $status_code;
     }
     
     /**
@@ -31,6 +34,7 @@ class Response extends \Virge\Core\Model {
      * Send out headers through
      */
     protected function _sendHeaders() {
+        http_response_code($this->status_code);
         if(empty($this->headers)) {
             $this->headers[] = 'Content-Type: text/html';
         }

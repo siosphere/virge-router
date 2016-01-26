@@ -9,6 +9,7 @@ use Virge\Router\Component\Route;
 
 use Virge\Router\Exception\NotFoundException;
 use Virge\Router\Exception\UnauthorizedAccessException;
+use Virge\Virge;
 
 /**
  * 
@@ -25,6 +26,11 @@ class RouterService {
         
         foreach(Routes::getResolvers() as $resolverConfig) {
             $resolver = $resolverConfig['resolver'];
+            
+            if(is_string($resolver) && Virge::service($resolver)) {
+                $resolver = Virge::service($resolver);
+            }
+            
             $method = $resolverConfig['method'];
             if(false !== ($response = call_user_func_array( array( $resolver, $method), array($request) ))) {
                 

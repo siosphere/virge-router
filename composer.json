@@ -1,11 +1,5 @@
 {
     "name": "virge/router",
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/siosphere/virge-core"
-        }
-    ],
     "require": {
         "virge/core": "dev-master"
     },

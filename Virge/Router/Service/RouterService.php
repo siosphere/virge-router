@@ -23,6 +23,7 @@ class RouterService {
     public function route($uri = null) {
         
         $request = $this->_buildRequest($uri);
+        Routes::setRequest($request);
         
         foreach(Routes::getResolvers() as $resolverConfig) {
             $resolver = $resolverConfig['resolver'];

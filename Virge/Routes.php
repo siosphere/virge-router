@@ -1,7 +1,10 @@
 <?php
 namespace Virge;
 
-use Virge\Router\Component\Route;
+use Virge\Router\Component\{
+    Request,
+    Route
+};
 
 /**
  * 
@@ -16,6 +19,18 @@ class Routes {
     protected static $before = array();
     
     public static $useSecure = false;
+
+    protected static $request = null;
+
+    public static function getRequest()
+    {
+        return static::$request;
+    }
+
+    public static function setRequest(Request $request)
+    {
+        static::$request = $request;
+    }
 
     public static function resolver($resolver, $method, $priority = 999) {
         while (isset(self::$resolvers[$priority])) {

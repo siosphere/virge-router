@@ -5,13 +5,26 @@ namespace Virge\Router\Component;
  * 
  * @author Michael Kramer
  */
-class Request extends \Virge\Core\Model {
-    
+class Request extends \Virge\Core\Model 
+{
+    protected $urlParams = [];
+
+    public function setUrlParam($paramKey, $paramValue)
+    {
+        $this->urlParams[$paramKey] = $paramValue;
+        return $this;
+    }    
     /**
      * Get a url part based on the preceding label
      * @param string $param
      */
-    public function getUrlParam($param){
+    public function getUrlParam($param)
+    {
+
+        if(isset($this->urlParams[$param])) {
+            return $this->urlParams[$param];
+        }
+
         $url = explode('/', $this->getURI());
         $value = null;
         $bNext = false;
@@ -24,7 +37,7 @@ class Request extends \Virge\Core\Model {
                 $bNext = true;
             }
         }
-        return $value;
+        return $this->urlParams[$param] = $value;
     }
     
     /**
@@ -33,7 +46,8 @@ class Request extends \Virge\Core\Model {
      * @param string $key
      * @param mixed $defaultValue
      */
-    public function get($key, $defaultValue = null) {
+    public function get($key, $defaultValue = null) 
+    {
         switch($this->getServer()->get('REQUEST_METHOD')) {
             case 'GET':
             case 'DELETE':

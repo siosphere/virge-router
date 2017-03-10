@@ -70,4 +70,15 @@ class Request extends \Virge\Core\Model
         
         return $value;
     }
+
+    public function getClientIp() : string
+    {
+        $forwardedFor = $this->getServer()->get('HTTP_X_FORWARDED_FOR');
+        if(!empty($forwardedFor)) {
+            $ips = explode(',' , $forwardedFor);
+            return $ips[0];
+        }
+
+        return $this->getServer()->get('REMOTE_ADDR');
+    }
 }

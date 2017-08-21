@@ -5,6 +5,7 @@ use Virge\Routes;
 
 use Virge\Router\Component\Request;
 use Virge\Router\Component\Response;
+use Virge\Router\Component\Response\Pipe;
 use Virge\Router\Component\Route;
 
 use Virge\Router\Exception\NotFoundException;
@@ -34,14 +35,7 @@ class RouterService {
             
             $method = $resolverConfig['method'];
             if(false !== ($response = call_user_func_array( array( $resolver, $method), array($request) ))) {
-                
-                if($response instanceof Response) {
-                    $response->send();
-                } else {
-                    $response = new Response($response);
-                    $response->send();
-                }
-                return true;
+                return $this->sendResponse($response);
             }
         }
         
@@ -56,16 +50,19 @@ class RouterService {
         
         $route->setActive(true);
         
-        if(is_callable($route->getContoller())){
-            return call_user_func($route->getController(), $request);
+        if(is_callable($route->getController())){
+            return $this->sendResponse(call_user_func($route->getController(), $request));
         }
-        
+
         $controllerClassname = $route->getController();
         $controller = new $controllerClassname;
         $method = $route->getMethod();
         
-        $response = call_user_func_array(array($controller, $method), array($request));
-        
+        $this->sendResponse(call_user_func_array(array($controller, $method), array($request)));
+    }
+
+    protected function sendResponse($response)
+    {
         if($response instanceof Response) {
             $response->send();
         } else {

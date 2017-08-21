@@ -1,10 +1,17 @@
 <?php
 
+use Virge\Router\Service\{
+    PipelineService,
+    RouterService,
+    TemplateService
+};
 use Virge\Virge;
 
 /**
  * Registers all given handlers with Virge that this Capsule contains
  * @author Michael Kramer
  */
-Virge::registerService("router", "\\Virge\\Router\\Service\\RouterService");
-Virge::registerService("templating", "\\Virge\\Router\\Service\\TemplateService");
+
+Virge::registerService(PipelineService::class, PipelineService::class);
+Virge::registerService("router", RouterService::class);
+Virge::registerService("templating", TemplateService::class);

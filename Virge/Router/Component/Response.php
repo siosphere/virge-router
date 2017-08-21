@@ -1,13 +1,16 @@
 <?php
 namespace Virge\Router\Component;
 
+use Virge\Router\Service\PipelineService;
+use Virge\Virge;
+
 /**
  * 
  * @author Michael Kramer
  */
 
-class Response extends \Virge\Core\Model {
-    
+class Response extends \Virge\Core\Model 
+{
     protected $body;
     
     protected $headers = array();
@@ -25,7 +28,11 @@ class Response extends \Virge\Core\Model {
     /**
      * Send the response
      */
-    public function send() {
+    public function send($usePipline = true) 
+    {
+        if($usePipline) {
+            return $this->getPipelineService()->prepareResponse($this);
+        }
         $this->_sendHeaders();
         $this->_sendBody();
     }
@@ -38,7 +45,7 @@ class Response extends \Virge\Core\Model {
         if(empty($this->headers)) {
             $this->headers[] = 'Content-Type: text/html';
         }
-        
+
         foreach($this->headers as $header) {
             header($header);
         }
@@ -49,5 +56,10 @@ class Response extends \Virge\Core\Model {
      */
     protected function _sendBody() {
         echo $this->getBody();
+    }
+
+    protected function getPipelineService() : PipelineService
+    {
+        return Virge::service(PipelineService::class);
     }
 }

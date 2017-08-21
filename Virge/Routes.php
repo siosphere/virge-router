@@ -3,14 +3,18 @@ namespace Virge;
 
 use Virge\Router\Component\{
     Request,
+    Response\Pipe,
     Route
 };
+use Virge\Router\Service\PipelineService;
+use Virge\Virge;
 
 /**
  * 
  * @author Michael Kramer
  */
-class Routes {
+class Routes 
+{
     
     protected static $_routes = array();
     
@@ -64,6 +68,11 @@ class Routes {
         ));
     }
 
+    public static function pipe(Pipe $pipe) : Pipe
+    {
+        return self::getPipelineService()->addPipe($pipe);
+    }
+
     /**
      * Run a before callable function
      * @param string $name
@@ -92,6 +101,11 @@ class Routes {
      */
     public static function getRoutes() {
         return self::$_routes;
+    }
+
+    protected static function getPipelineService() : PipelineService
+    {
+        return Virge::service(PipelineService::class);
     }
     
 }

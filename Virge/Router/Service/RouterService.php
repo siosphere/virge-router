@@ -16,7 +16,10 @@ use Virge\Virge;
  * 
  * @author Michael Kramer
  */
-class RouterService {
+class RouterService 
+{
+
+    const VALID_URI_REGEX = "/\{[a-z\_\-\+\.]+\}/i";
     
     /**
      * Route a web request
@@ -39,7 +42,7 @@ class RouterService {
             }
         }
         
-        $route = $this->_getRoute($request->getURI());
+        $route = $this->_getRoute($request->getURI(), $request);
         if(!$route) {
             throw new NotFoundException();
         }
@@ -104,7 +107,50 @@ class RouterService {
      * @param string $uri
      * @return Route|null
      */
-    protected function _getRoute($uri) {
+    protected function _getRoute($uri, Request $request) 
+    {
+        $uriParts = explode('/', $uri);
+        
+        foreach(Routes::getRoutes() as $route) {
+            $routeParts = explode('/', $route->getUrl());
+
+            if(count($routeParts) !== count($uriParts)) {
+                continue;
+            }
+
+            $i = 0;
+            $matched = true;
+            $urlParams = [];
+
+            foreach ($uriParts as $part) {
+                if(!preg_match(self::VALID_URI_REGEX, $routeParts[$i])) {
+                    if($part !== $routeParts[$i]) {
+                        $matched = false;
+                        break;
+                    }
+                } else {
+                    $paramName = str_replace(["{", "}"], '', $routeParts[$i]);
+                    $urlParams[$paramName] = $part;
+                }
+                $i++;
+            }
+
+            if(!$matched) {
+                continue;
+            }
+
+            foreach($urlParams as $paramName => $paramValue) {
+                $request->setUrlParam($paramName, $paramValue);
+            }
+
+            return $route;
+        }
+
+        return $this->_getLegacyRoute($uri);
+    }
+
+    protected function _getLegacyRoute($uri)
+    {
         $uriParts = explode('/', $uri);
         
         $i = 0;

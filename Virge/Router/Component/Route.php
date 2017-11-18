@@ -29,15 +29,15 @@ class Route extends \Virge\Core\Model {
      * See if we can access this route
      * @return boolean
      */
-    public function access() {
+    public function access(Request $request) {
         if (empty($this->before)) {
             return true;
         }
         
         foreach ($this->before as $before) {
-            if (is_callable($before) && !$before()) {
+            if (is_callable($before) && !call_user_func($before, $request)) {
                 return false;
-            } elseif(!Routes::before($before)) {
+            } elseif(!Routes::before($before, $request)) {
                 return false;
             }
         }

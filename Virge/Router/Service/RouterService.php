@@ -47,7 +47,7 @@ class RouterService
             throw new NotFoundException();
         }
         
-        if(!$route->access()){
+        if(!$route->access($request)){
             throw new UnauthorizedAccessException();
         }
         

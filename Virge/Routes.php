@@ -78,7 +78,7 @@ class Routes
      * @param string $name
      * @return boolean
      */
-    public static function before($name) {
+    public static function before($name, Request $request) {
         if (isset(self::$before[$name])) {
             $func = self::$before[$name];
             return $func();

@@ -35,9 +35,14 @@ class Route extends \Virge\Core\Model {
         }
         
         foreach ($this->before as $before) {
-            if (is_callable($before) && !call_user_func($before, $request)) {
-                return false;
-            } elseif(!Routes::before($before, $request)) {
+            if (is_callable($before)) {
+                if(!call_user_func($before, $request)) {
+                    return false;
+                }
+                continue;
+            }
+            
+            if(!Routes::before($before, $request)) {
                 return false;
             }
         }

@@ -81,7 +81,7 @@ class Routes
     public static function before($name, Request $request) {
         if (isset(self::$before[$name])) {
             $func = self::$before[$name];
-            return $func();
+            return $func($request);
         }
         return false;
     }

@@ -1,7 +1,7 @@
 {
     "name": "virge/router",
     "require": {
-        "virge/core": "~1.0"
+        "virge/core": "~2.0"
     },
     "autoload": {
         "psr-4": {"Virge\\": "Virge/"}
